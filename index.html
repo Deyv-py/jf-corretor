@@ -1,243 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop with Admin Panel</title>
+    <title>Imobiliária</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
         }
-        .header {
-            background-color: #333;
+        header {
+            background-color: #4CAF50;
+            padding: 1rem;
             color: white;
-            padding: 15px;
             text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
         }
         .container {
-            width: 80%;
-            margin: 20px auto;
+            padding: 2rem;
         }
-        .hidden-section {
-            display: none;
-        }
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .product {
-            background-color: white;
-            border: 1px solid #ccc;
+        .admin-btn {
+            display: block;
+            margin: 2rem auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            width: 200px;
             border-radius: 5px;
-            padding: 20px;
-            margin: 10px;
-            width: 220px;
+        }
+        footer {
             text-align: center;
-        }
-        .product img {
-            width: 100%;
-            height: auto;
-        }
-        .product h3 {
-            margin: 10px 0;
-        }
-        .product p {
-            font-size: 18px;
-            color: #555;
-        }
-        .product button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 3px;
-        }
-        .product button:hover {
-            background-color: #218838;
-        }
-        .login-form {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .admin-controls {
-            margin-top: 20px;
-        }
-        .admin-controls input, .admin-controls button {
-            padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-        }
-        .admin-controls button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-        .admin-controls button:hover {
-            background-color: #0056b3;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-            border: none;
-            padding: 5px;
-            color: white;
-            cursor: pointer;
-            margin-top: 5px;
-            border-radius: 3px;
-        }
-        .delete-btn:hover {
-            background-color: #c82333;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Loja Virtual</h1>
-    </div>
+<header>
+    <h1>Imobiliária Online</h1>
+    <nav>
+        <a href="#home">Início</a>
+        <a href="#produto1">Imóvel 1</a>
+        <a href="#produto2">Imóvel 2</a>
+        <a href="#admin">Administração</a>
+    </nav>
+</header>
 
-    <!-- Product Display Section -->
-    <div class="container" id="products-section">
-        <h2>Produtos Disponíveis</h2>
-        <div id="product-list" class="product-list"></div>
-    </div>
+<div class="container" id="content">
+    <!-- Conteúdo dinâmico vai aqui -->
+</div>
 
-    <!-- Admin Login Section -->
-    <div class="container hidden-section" id="admin-login-section">
-        <h2>Admin Login</h2>
-        <div class="login-form">
-            <input type="text" id="username" placeholder="Usuário"><br>
-            <input type="password" id="password" placeholder="Senha"><br>
-            <button onclick="login()">Entrar</button>
-            <p id="login-error" style="color: red; display: none;">Usuário ou senha incorretos</p>
-        </div>
-    </div>
+<footer>
+    <p>&copy; 2024 - Imobiliária Online</p>
+</footer>
 
-    <!-- Admin Panel Section -->
-    <div class="container hidden-section" id="admin-panel">
-        <h2>Painel do Administrador</h2>
+<script>
+    // Definir as páginas de conteúdo
+    const pages = {
+        home: `
+            <h2>Bem-vindo à nossa imobiliária!</h2>
+            <p>Confira nossos imóveis à venda abaixo. Clique em cada imóvel para mais detalhes.</p>
+            <ul>
+                <li><a href="#produto1">Imóvel 1</a> - R$ 500.000</li>
+                <li><a href="#produto2">Imóvel 2</a> - R$ 750.000</li>
+            </ul>
+        `,
+        produto1: `
+            <h2>Imóvel 1</h2>
+            <p>Localização: Rua das Flores, 123 - Centro</p>
+            <p>Preço: R$ 500.000</p>
+            <p>Descrição: Este belo apartamento no centro da cidade oferece 3 quartos, 2 banheiros e uma vista incrível.</p>
+            <a href="#home">Voltar ao Início</a>
+        `,
+        produto2: `
+            <h2>Imóvel 2</h2>
+            <p>Localização: Avenida Paulista, 456 - São Paulo</p>
+            <p>Preço: R$ 750.000</p>
+            <p>Descrição: Um apartamento luxuoso com 4 quartos, piscina e academia privativa.</p>
+            <a href="#home">Voltar ao Início</a>
+        `,
+        admin: `
+            <h2>Área Administrativa</h2>
+            <p>Aqui você pode editar ou adicionar novos imóveis (esta é apenas uma demonstração).</p>
+            <form>
+                <label for="nome">Nome do Imóvel:</label><br>
+                <input type="text" id="nome" name="nome"><br><br>
+                
+                <label for="preco">Preço:</label><br>
+                <input type="text" id="preco" name="preco"><br><br>
+                
+                <label for="desc">Descrição:</label><br>
+                <textarea id="desc" name="desc" rows="4" cols="50"></textarea><br><br>
+                
+                <button type="submit">Salvar Imóvel</button>
+            </form>
+            <a class="admin-btn" href="#home">Voltar ao Início</a>
+        `
+    };
 
-        <!-- Add Product Form -->
-        <div class="admin-controls">
-            <input type="text" id="product-name" placeholder="Nome do Produto">
-            <input type="number" id="product-price" placeholder="Preço do Produto">
-            <button onclick="addProduct()">Adicionar Produto</button>
-        </div>
+    // Função para carregar conteúdo com base na hash do URL
+    function loadPage() {
+        const hash = window.location.hash.substring(1) || 'home';
+        document.getElementById('content').innerHTML = pages[hash] || pages['home'];
+    }
 
-        <!-- List of Products in Admin Panel -->
-        <div id="admin-product-list"></div>
-    </div>
+    // Carregar a página correta quando o hash mudar
+    window.addEventListener('hashchange', loadPage);
 
-    <script>
-        // Hardcoded products list (for demo purposes)
-        let products = [
-            { name: 'Produto 1', price: 49.90 },
-            { name: 'Produto 2', price: 59.90 },
-            { name: 'Produto 3', price: 89.90 }
-        ];
-
-        // Function to render the products on the main shop page
-        function loadProducts() {
-            const productList = document.getElementById('product-list');
-            productList.innerHTML = '';
-            products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('product');
-                productDiv.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>R$ ${product.price.toFixed(2)}</p>
-                    <button>Comprar</button>
-                `;
-                productList.appendChild(productDiv);
-            });
-        }
-
-        // Function to render the products on the admin panel
-        function loadAdminProducts() {
-            const adminProductList = document.getElementById('admin-product-list');
-            adminProductList.innerHTML = '';
-            products.forEach((product, index) => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('product');
-                productDiv.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>R$ ${product.price.toFixed(2)}</p>
-                    <button class="delete-btn" onclick="deleteProduct(${index})">Excluir</button>
-                `;
-                adminProductList.appendChild(productDiv);
-            });
-        }
-
-        // Function to add a new product
-        function addProduct() {
-            const name = document.getElementById('product-name').value;
-            const price = parseFloat(document.getElementById('product-price').value);
-
-            if (name && !isNaN(price)) {
-                products.push({ name, price });
-                loadProducts();
-                loadAdminProducts();
-                document.getElementById('product-name').value = '';
-                document.getElementById('product-price').value = '';
-            }
-        }
-
-        // Function to delete a product
-        function deleteProduct(index) {
-            products.splice(index, 1);
-            loadProducts();
-            loadAdminProducts();
-        }
-
-        // Admin login with hardcoded credentials
-        async function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Hardcoded admin credentials (for demo purposes)
-            const adminUser = 'admin';
-            const adminPassHash = 'ce70f3ac7d81bd79846c9aa2e5035c0c3c77ed1d715bd7d4b4c77e60f7364b4240a42f70801711f81f97b866a5c64a10'; // "password"
-
-            const hashedPassword = await sha384(password);
-
-            if (username === adminUser && hashedPassword === adminPassHash) {
-                document.getElementById('admin-login-section').classList.add('hidden-section');
-                document.getElementById('admin-panel').classList.remove('hidden-section');
-                loadAdminProducts();
-            } else {
-                document.getElementById('login-error').style.display = 'block';
-            }
-        }
-
-        // Hashing function for SHA-384
-        async function sha384(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-384', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // Handle page routing
-        function handleRouting() {
-            const hash = window.location.hash || '#products';
-            document.querySelectorAll('.container').forEach(section => section.classList.add('hidden-section'));
-            if (hash === '#admin') {
-                document.getElementById('admin-login-section').classList.remove('hidden-section');
-            } else {
-                document.getElementById('products-section').classList.remove('hidden-section');
-            }
-        }
-
-        window.addEventListener('hashchange', handleRouting);
-        handleRouting();
-        loadProducts();
-    </script>
+    // Carregar a página correta no primeiro carregamento
+    loadPage();
+</script>
 
 </body>
 </html>
+
