@@ -90,7 +90,7 @@
         .admin-controls button:hover {
             background-color: #0056b3;
         }
-        .delete-btn {
+        .delete-btn, .edit-btn {
             background-color: #dc3545;
             border: none;
             padding: 5px;
@@ -101,6 +101,13 @@
         }
         .delete-btn:hover {
             background-color: #c82333;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            margin-right: 5px;
+        }
+        .edit-btn:hover {
+            background-color: #e0a800;
         }
         .container {
             display: none;
@@ -139,12 +146,22 @@
 
         <div id="admin-panel" style="display:none;">
             <h2>Gerenciar Produtos</h2>
+
             <!-- Adicionar Produto -->
             <div class="admin-controls">
                 <input type="text" id="product-name" placeholder="Nome do Produto">
                 <input type="number" id="product-price" placeholder="Preço do Produto">
                 <button onclick="adicionarProduto()">Adicionar Produto</button>
             </div>
+
+            <!-- Editar Produto -->
+            <div class="admin-controls" id="edit-controls" style="display:none;">
+                <input type="text" id="edit-product-name" placeholder="Nome do Produto">
+                <input type="number" id="edit-product-price" placeholder="Preço do Produto">
+                <button onclick="salvarEdicao()">Salvar Alterações</button>
+                <button onclick="cancelarEdicao()">Cancelar</button>
+            </div>
+
             <!-- Lista de Produtos -->
             <div id="admin-product-list"></div>
         </div>
@@ -156,6 +173,8 @@
             { nome: 'Produto 2', preco: 59.90, imagem: 'https://via.placeholder.com/200x150' },
             { nome: 'Produto 3', preco: 89.90, imagem: 'https://via.placeholder.com/200x150' }
         ];
+
+        let produtoEmEdicao = null;  // Para armazenar o índice do produto sendo editado
 
         // Carregar produtos
         function carregarProdutos() {
@@ -228,24 +247,4 @@
         function atualizarListaProdutos() {
             const listaProdutos = document.getElementById('admin-product-list');
             listaProdutos.innerHTML = '';
-            produtos.forEach((produto, index) => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('product');
-                productDiv.innerHTML = `
-                    <h3>${produto.nome}</h3>
-                    <p>R$ ${produto.preco.toFixed(2)}</p>
-                    <button class="delete-btn" onclick="excluirProduto(${index})">Excluir</button>
-                `;
-                listaProdutos.appendChild(productDiv);
-            });
-        }
-
-        function excluirProduto(index) {
-            produtos.splice(index, 1);
-            atualizarListaProdutos();
-            carregarProdutos();
-        }
-    </script>
-
-</body>
-</html>
+            produtos.forEach((produto, index)
