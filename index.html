@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Shop</title>
+    <title>Shop with Admin Panel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,20 +11,18 @@
             padding: 0;
             background-color: #f5f5f5;
         }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .hidden-section {
+            display: none;
+        }
         .header {
             background-color: #333;
             color: white;
             padding: 15px;
             text-align: center;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-        }
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
         }
         .product {
             background-color: white;
@@ -32,7 +30,7 @@
             border-radius: 5px;
             padding: 20px;
             margin: 10px;
-            width: 220px;
+            width: 200px;
             text-align: center;
         }
         .product img {
@@ -46,81 +44,64 @@
             font-size: 18px;
             color: #555;
         }
-        .product button {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 3px;
-        }
-        .login-form, .admin-controls, .edit-controls {
-            width: 300px;
-            margin: 50px auto;
+        .login-section, .admin-panel {
             padding: 20px;
             background-color: white;
             border-radius: 5px;
+            width: 300px;
+            margin: 50px auto;
             text-align: center;
         }
-        .login-form input, .admin-controls input {
+        .login-section input, .admin-panel input {
             padding: 10px;
             margin: 10px 0;
             width: 100%;
         }
-        .admin-controls button, .edit-controls button {
+        .admin-panel button, .login-section button {
+            background-color: #007bff;
+            color: white;
             padding: 10px;
             width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             margin-top: 10px;
         }
-        .delete-btn, .edit-btn {
-            padding: 5px 10px;
-            color: white;
-            cursor: pointer;
-            border-radius: 3px;
+        .admin-panel button:hover, .login-section button:hover {
+            background-color: #0056b3;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
         .delete-btn {
             background-color: #dc3545;
-        }
-        .edit-btn {
-            background-color: #ffc107;
-            margin-right: 10px;
+            border: none;
+            padding: 5px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
         }
         .delete-btn:hover {
             background-color: #c82333;
-        }
-        .edit-btn:hover {
-            background-color: #e0a800;
-        }
-        #admin-panel {
-            display: none;
-        }
-        .active-section {
-            display: block;
-        }
-        .hidden-section {
-            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Simple Shop</h1>
-        <nav>
-            <a href="#products">Products</a> | 
-            <a href="#admin">Admin</a>
-        </nav>
+        <h1>Shop with Admin Panel</h1>
     </div>
 
-    <!-- Product Section -->
-    <div id="products-section" class="container">
+    <!-- Product Listing Section -->
+    <div class="container" id="products-section">
         <h2>Available Products</h2>
         <div class="product-list" id="product-list"></div>
     </div>
 
     <!-- Admin Login Section -->
-    <div id="admin-login-section" class="login-form hidden-section">
+    <div class="login-section hidden-section" id="admin-login-section">
         <h2>Admin Login</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
@@ -129,53 +110,38 @@
     </div>
 
     <!-- Admin Panel Section -->
-    <div id="admin-panel" class="container hidden-section">
+    <div class="container hidden-section" id="admin-panel">
         <h2>Admin Panel</h2>
-        <div class="admin-controls">
-            <input type="text" id="new-product-name" placeholder="Product Name">
-            <input type="number" id="new-product-price" placeholder="Price">
-            <button onclick="addProduct()">Add Product</button>
-        </div>
-
-        <!-- Edit Product Controls -->
-        <div id="edit-controls" class="edit-controls hidden-section">
-            <input type="text" id="edit-product-name" placeholder="Product Name">
-            <input type="number" id="edit-product-price" placeholder="Price">
-            <button onclick="saveEdit()">Save Changes</button>
-            <button onclick="cancelEdit()">Cancel</button>
-        </div>
-
-        <h3>Manage Products</h3>
-        <div id="admin-product-list"></div>
+        <input type="text" id="product-name" placeholder="Product Name">
+        <input type="number" id="product-price" placeholder="Product Price">
+        <button onclick="addProduct()">Add Product</button>
+        <div class="product-list" id="admin-product-list"></div>
     </div>
 
     <script>
-        // Simulated product list
+        // Mock product data
         let products = [
-            { name: 'Product 1', price: 49.90, image: 'https://via.placeholder.com/200x150' },
-            { name: 'Product 2', price: 59.90, image: 'https://via.placeholder.com/200x150' }
+            { name: 'Product 1', price: 49.90 },
+            { name: 'Product 2', price: 59.90 },
+            { name: 'Product 3', price: 89.90 }
         ];
 
-        let editingProductIndex = null;
-
-        // Load products to the shop page
+        // Function to render products on the shop page
         function loadProducts() {
             const productList = document.getElementById('product-list');
             productList.innerHTML = '';
-            products.forEach((product, index) => {
+            products.forEach(product => {
                 const productDiv = document.createElement('div');
                 productDiv.classList.add('product');
                 productDiv.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
-                    <p>$${product.price.toFixed(2)}</p>
-                    <button>Buy Now</button>
+                    <p>R$ ${product.price.toFixed(2)}</p>
                 `;
                 productList.appendChild(productDiv);
             });
         }
 
-        // Show admin product list
+        // Function to load products in admin panel
         function loadAdminProducts() {
             const adminProductList = document.getElementById('admin-product-list');
             adminProductList.innerHTML = '';
@@ -184,78 +150,45 @@
                 productDiv.classList.add('product');
                 productDiv.innerHTML = `
                     <h3>${product.name}</h3>
-                    <p>$${product.price.toFixed(2)}</p>
-                    <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
+                    <p>R$ ${product.price.toFixed(2)}</p>
                     <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
                 `;
                 adminProductList.appendChild(productDiv);
             });
         }
 
-        // Add a new product
+        // Function to add a product
         function addProduct() {
-            const name = document.getElementById('new-product-name').value;
-            const price = parseFloat(document.getElementById('new-product-price').value);
+            const name = document.getElementById('product-name').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+
             if (name && !isNaN(price)) {
-                products.push({ name, price, image: 'https://via.placeholder.com/200x150' });
-                loadProducts();
+                products.push({ name, price });
                 loadAdminProducts();
-                document.getElementById('new-product-name').value = '';
-                document.getElementById('new-product-price').value = '';
+                loadProducts();
+                document.getElementById('product-name').value = '';
+                document.getElementById('product-price').value = '';
             }
         }
 
-        // Edit product
-        function editProduct(index) {
-            editingProductIndex = index;
-            const product = products[index];
-            document.getElementById('edit-product-name').value = product.name;
-            document.getElementById('edit-product-price').value = product.price;
-            document.getElementById('edit-controls').classList.remove('hidden-section');
-        }
-
-        // Save edited product
-        function saveEdit() {
-            const name = document.getElementById('edit-product-name').value;
-            const price = parseFloat(document.getElementById('edit-product-price').value);
-            if (name && !isNaN(price)) {
-                products[editingProductIndex] = { name, price, image: 'https://via.placeholder.com/200x150' };
-                loadProducts();
-                loadAdminProducts();
-                document.getElementById('edit-controls').classList.add('hidden-section');
-                editingProductIndex = null;
-            }
-        }
-
-        // Cancel editing
-        function cancelEdit() {
-            editingProductIndex = null;
-            document.getElementById('edit-controls').classList.add('hidden-section');
-        }
-
-        // Delete a product
+        // Function to delete a product
         function deleteProduct(index) {
             products.splice(index, 1);
-            loadProducts();
             loadAdminProducts();
+            loadProducts();
         }
 
-        // Simple login function (using static hash)
-        async function sha384(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-384', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
+        // Admin login function
         async function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const hashedPassword = await sha384(password);
 
             // Hardcoded admin credentials (for demo purposes)
             const adminUser = 'admin';
-            const adminPassHash = '3f75aa9266c066b106318aeb0301226ebba5399d4da3c9e5264e2f7b2f06ecc16653de49816b7f767b41dd138336f613'; // "password"
+            const adminPassHash = 'ce70f3ac7d81bd79846c9aa2e5035c0c3c77ed1d715bd7d4b4c77e60f7364b4240a42f70801711f81f97b866a5c64a10'; // "password"
+
+            // Hash the password entered
+            const hashedPassword = await sha384(password);
 
             if (username === adminUser && hashedPassword === adminPassHash) {
                 document.getElementById('admin-login-section').classList.add('hidden-section');
@@ -264,6 +197,14 @@
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
+        }
+
+        // Function to generate SHA-384 hash for password
+        async function sha384(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-384', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
         // Handle page routing
