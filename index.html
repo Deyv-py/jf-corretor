@@ -147,7 +147,7 @@
             const hashedPassword = await sha384(password);
 
             // Buscar o arquivo JSON com os hashes no GitHub
-            const response = await fetch('https://raw.githubusercontent.com/Deyv-py/pws/refs/heads/main/password.json?token=GHSAT0AAAAAACZHAILG7U7OTOQ7MI2GAOGSZYUJULQ');
+            const response = await fetch('https://raw.githubusercontent.com/Deyv-py/pws/refs/heads/main/password.json?token=GHSAT0AAAAAACZHAILGRCYNB64X3V6JAQKYZYUKQUA');
             const data = await response.json();
 
             // Verificar se o nome de usuário existe e se o hash corresponde
