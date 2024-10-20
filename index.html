@@ -220,7 +220,7 @@
             const password = document.getElementById('password').value;
             const hashedPassword = await sha384(password);
 
-            const response = await fetch('https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/hashes.json');
+            const response = await fetch('https://uc2528a2cbc46fd6ce25fe8d5986.dl.dropboxusercontent.com/cd/0/inline/CcwbgByNaeW3SL35imiSgXBRS4AmOERWwRaDotZwd0wqPh2R6luhQ_ZdmRp-65BqRH8yX3Dbz8FCpA6w6lG_G9SN7adrytrTOhlzjSwX5v6noU6ENEnrmIs7YtXXFcvoNkgMty3KIuLHoPcEJlUyc4T7/file#');
             const data = await response.json();
 
             if (data[username] && data[username] === hashedPassword) {
