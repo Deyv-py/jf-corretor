@@ -2,7 +2,7 @@
     {
         "name": "Casa 1",
         "location": "Rua das Flores, 123 - Centro",
-        "price": 500000,
+        "price": 550000,
         "description": "Este belo apartamento no centro da cidade oferece 3 quartos, 2 banheiros e uma vista incrível.",
         "link": "https://www.exemplo.com/casa1",
         "image": "https://www.exemplo.com/imagem_casa1.jpg"
