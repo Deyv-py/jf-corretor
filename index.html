@@ -81,7 +81,7 @@
 
     // Função para carregar os dados do arquivo JSON no Dropbox
     async function loadProperties() {
-        const response = await fetch('https://raw.githubusercontent.com/Deyv-py/jf-corretor/refs/heads/main/casas.json'); // Substitua pelo seu link do Dropbox
+        const response = await fetch('https://raw.githubusercontent.com/Deyv-py/jf-corretor/refs/heads/main/casas.json');
         properties = await response.json();
         loadHomePage();
     }
