@@ -67,7 +67,7 @@
 
     // Função para carregar os dados do arquivo JSON no Dropbox
     async function loadProperties() {
-        const response = await fetch('https://www.dropbox.com/s/xxxxxx/imoveis.json?dl=1'); // Substitua pelo seu link do Dropbox
+        const response = await fetch('https://ucc041893aac976496bc25d6d9d0.dl.dropboxusercontent.com/cd/0/inline/Cc0qlp6xeWKIvcdh3hv1vsVtPnaMTfYjTJivLFZml2lhkrA1woVwioxDD_xAkw-oILtmmX1bpSipWg8PiJnYFxkqcKAEirvatoZCLMcboKC0Vs9ZNTP1yZQKli9Jaj-uFEWyUa8wjm4oyQXg7tIpMm0J/file#');
         properties = await response.json();
         loadHomePage();
     }
