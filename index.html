@@ -30,15 +30,13 @@
         .container {
             padding: 2rem;
         }
-        .admin-btn {
-            display: block;
-            margin: 2rem auto;
-            padding: 10px 20px;
+        .property-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
             background-color: #4CAF50;
             color: white;
             text-decoration: none;
-            text-align: center;
-            width: 200px;
             border-radius: 5px;
         }
         footer {
@@ -53,9 +51,6 @@
     <h1>Imobiliária Online</h1>
     <nav>
         <a href="#home">Início</a>
-        <a href="#produto1">Imóvel 1</a>
-        <a href="#produto2">Imóvel 2</a>
-        <a href="#admin">Administração</a>
     </nav>
 </header>
 
@@ -68,62 +63,57 @@
 </footer>
 
 <script>
-    // Definir as páginas de conteúdo
-    const pages = {
-        home: `
-            <h2>Bem-vindo à nossa imobiliária!</h2>
-            <p>Confira nossos imóveis à venda abaixo. Clique em cada imóvel para mais detalhes.</p>
-            <ul>
-                <li><a href="#produto1">Imóvel 1</a> - R$ 500.000</li>
-                <li><a href="#produto2">Imóvel 2</a> - R$ 750.000</li>
-            </ul>
-        `,
-        produto1: `
-            <h2>Imóvel 1</h2>
-            <p>Localização: Rua das Flores, 123 - Centro</p>
-            <p>Preço: R$ 500.000</p>
-            <p>Descrição: Este belo apartamento no centro da cidade oferece 3 quartos, 2 banheiros e uma vista incrível.</p>
-            <a href="#home">Voltar ao Início</a>
-        `,
-        produto2: `
-            <h2>Imóvel 2</h2>
-            <p>Localização: Avenida Paulista, 456 - São Paulo</p>
-            <p>Preço: R$ 750.000</p>
-            <p>Descrição: Um apartamento luxuoso com 4 quartos, piscina e academia privativa.</p>
-            <a href="#home">Voltar ao Início</a>
-        `,
-        admin: `
-            <h2>Área Administrativa</h2>
-            <p>Aqui você pode editar ou adicionar novos imóveis (esta é apenas uma demonstração).</p>
-            <form>
-                <label for="nome">Nome do Imóvel:</label><br>
-                <input type="text" id="nome" name="nome"><br><br>
-                
-                <label for="preco">Preço:</label><br>
-                <input type="text" id="preco" name="preco"><br><br>
-                
-                <label for="desc">Descrição:</label><br>
-                <textarea id="desc" name="desc" rows="4" cols="50"></textarea><br><br>
-                
-                <button type="submit">Salvar Imóvel</button>
-            </form>
-            <a class="admin-btn" href="#home">Voltar ao Início</a>
-        `
-    };
+    let properties = [];
 
-    // Função para carregar conteúdo com base na hash do URL
-    function loadPage() {
-        const hash = window.location.hash.substring(1) || 'home';
-        document.getElementById('content').innerHTML = pages[hash] || pages['home'];
+    // Função para carregar os dados do arquivo JSON no Dropbox
+    async function loadProperties() {
+        const response = await fetch('https://www.dropbox.com/s/xxxxxx/imoveis.json?dl=1'); // Substitua pelo seu link do Dropbox
+        properties = await response.json();
+        loadHomePage();
     }
 
-    // Carregar a página correta quando o hash mudar
-    window.addEventListener('hashchange', loadPage);
+    // Função para carregar a página inicial
+    function loadHomePage() {
+        const propertyList = properties.map((property, index) => `
+            <li>
+                <strong>${property.name}</strong> - R$ ${property.price} <br>
+                <a class="property-btn" href="${property.link}" target="_blank">Comprar</a>
+            </li>
+        `).join('');
 
-    // Carregar a página correta no primeiro carregamento
-    loadPage();
+        document.getElementById('content').innerHTML = `
+            <h2>Bem-vindo à nossa imobiliária!</h2>
+            <p>Confira nossos imóveis à venda abaixo. Clique em "Comprar" para mais detalhes.</p>
+            <ul>${propertyList}</ul>
+        `;
+    }
+
+    // Função para carregar a página de um imóvel (não utilizada agora, mas mantida para referência)
+    function loadPropertyPage(index) {
+        const property = properties[index];
+        document.getElementById('content').innerHTML = `
+            <h2>${property.name}</h2>
+            <p>Localização: ${property.location}</p>
+            <p>Preço: R$ ${property.price}</p>
+            <p>Descrição: ${property.description}</p>
+            <a href="#home">Voltar ao Início</a>
+        `;
+    }
+
+    // Função para carregar conteúdo com base na hash do URL (não utilizada agora, mas mantida para referência)
+    function loadPage() {
+        const hash = window.location.hash.substring(1);
+        if (hash.startsWith('property')) {
+            const index = parseInt(hash.replace('property', ''), 10);
+            loadPropertyPage(index);
+        } else {
+            loadHomePage();
+        }
+    }
+
+    // Carregar os dados e a página correta no primeiro carregamento
+    loadProperties();
 </script>
 
 </body>
 </html>
-
