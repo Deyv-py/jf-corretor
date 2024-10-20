@@ -5,7 +5,7 @@
         "price": 500000,
         "description": "Este belo apartamento no centro da cidade oferece 3 quartos, 2 banheiros e uma vista incrível.",
         "link": "https://www.exemplo.com/casa1",
-        "image": "https://www.exemplo.com/imagem_casa1.jpg" // Pode ser um link inválido
+        "image": "https://www.exemplo.com/imagem_casa1.jpg"
     },
     {
         "name": "Casa 2",
@@ -13,6 +13,6 @@
         "price": 750000,
         "description": "Um apartamento luxuoso com 4 quartos, piscina e academia privativa.",
         "link": "https://www.exemplo.com/casa2",
-        "image": "https://www.exemplo.com/imagem_casa2.jpg" // Pode ser um link inválido
+        "image": "https://www.exemplo.com/imagem_casa2.jpg"
     }
 ]
