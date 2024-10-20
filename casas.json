@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Casa 1",
+        "location": "Rua das Flores, 123 - Centro",
+        "price": 500000,
+        "description": "Este belo apartamento no centro da cidade oferece 3 quartos, 2 banheiros e uma vista incrível.",
+        "link": "https://www.exemplo.com/casa1"
+    },
+    {
+        "name": "Casa 2",
+        "location": "Avenida Paulista, 456 - São Paulo",
+        "price": 750000,
+        "description": "Um apartamento luxuoso com 4 quartos, piscina e academia privativa.",
+        "link": "https://www.exemplo.com/casa2"
+    }
+]
