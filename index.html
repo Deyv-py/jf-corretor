@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loja com Painel de Administração</title>
+    <title>Simple Shop</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,7 +34,6 @@
             margin: 10px;
             width: 220px;
             text-align: center;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         .product img {
             width: 100%;
@@ -56,10 +55,7 @@
             margin-top: 10px;
             border-radius: 3px;
         }
-        .product button:hover {
-            background-color: #218838;
-        }
-        .login-form {
+        .login-form, .admin-controls, .edit-controls {
             width: 300px;
             margin: 50px auto;
             padding: 20px;
@@ -67,128 +63,184 @@
             border-radius: 5px;
             text-align: center;
         }
-        .login-form input {
+        .login-form input, .admin-controls input {
             padding: 10px;
             margin: 10px 0;
             width: 100%;
         }
-        .admin-controls {
-            margin-top: 20px;
-        }
-        .admin-controls input, .admin-controls button {
+        .admin-controls button, .edit-controls button {
             padding: 10px;
-            margin: 10px 0;
             width: 100%;
+            margin-top: 10px;
         }
-        .admin-controls button {
-            background-color: #007bff;
+        .delete-btn, .edit-btn {
+            padding: 5px 10px;
             color: white;
-            border: none;
             cursor: pointer;
             border-radius: 3px;
-        }
-        .admin-controls button:hover {
-            background-color: #0056b3;
         }
         .delete-btn {
             background-color: #dc3545;
-            border: none;
-            padding: 5px;
-            color: white;
-            cursor: pointer;
-            margin-top: 5px;
-            border-radius: 3px;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            margin-right: 10px;
         }
         .delete-btn:hover {
             background-color: #c82333;
         }
-        .container {
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        #admin-panel {
             display: none;
         }
-        section.active {
+        .active-section {
             display: block;
+        }
+        .hidden-section {
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Loja com Painel de Administração</h1>
+        <h1>Simple Shop</h1>
         <nav>
-            <a href="#products">Produtos</a> |
-            <a href="#admin">Administração</a>
+            <a href="#products">Products</a> | 
+            <a href="#admin">Admin</a>
         </nav>
     </div>
 
-    <!-- Seção de produtos -->
-    <section id="products-section" class="container">
-        <div class="product-list" id="product-list">
-            <!-- Os produtos serão carregados aqui -->
-        </div>
-    </section>
+    <!-- Product Section -->
+    <div id="products-section" class="container">
+        <h2>Available Products</h2>
+        <div class="product-list" id="product-list"></div>
+    </div>
 
-    <!-- Seção de administração -->
-    <section id="admin-section" class="container">
-        <div class="login-form" id="login-form">
-            <h2>Login de Administrador</h2>
-            <input type="text" id="username" placeholder="Usuário">
-            <input type="password" id="password" placeholder="Senha">
-            <button onclick="login()">Entrar</button>
-            <p id="login-error" style="color: red; display: none;">Usuário ou senha incorretos</p>
+    <!-- Admin Login Section -->
+    <div id="admin-login-section" class="login-form hidden-section">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="login-error" style="color: red; display: none;">Incorrect username or password</p>
+    </div>
+
+    <!-- Admin Panel Section -->
+    <div id="admin-panel" class="container hidden-section">
+        <h2>Admin Panel</h2>
+        <div class="admin-controls">
+            <input type="text" id="new-product-name" placeholder="Product Name">
+            <input type="number" id="new-product-price" placeholder="Price">
+            <button onclick="addProduct()">Add Product</button>
         </div>
 
-        <div id="admin-panel" style="display:none;">
-            <h2>Gerenciar Produtos</h2>
-            <!-- Adicionar Produto -->
-            <div class="admin-controls">
-                <input type="text" id="product-name" placeholder="Nome do Produto">
-                <input type="number" id="product-price" placeholder="Preço do Produto">
-                <button onclick="adicionarProduto()">Adicionar Produto</button>
-            </div>
-            <!-- Lista de Produtos -->
-            <div id="admin-product-list"></div>
+        <!-- Edit Product Controls -->
+        <div id="edit-controls" class="edit-controls hidden-section">
+            <input type="text" id="edit-product-name" placeholder="Product Name">
+            <input type="number" id="edit-product-price" placeholder="Price">
+            <button onclick="saveEdit()">Save Changes</button>
+            <button onclick="cancelEdit()">Cancel</button>
         </div>
-    </section>
+
+        <h3>Manage Products</h3>
+        <div id="admin-product-list"></div>
+    </div>
 
     <script>
-        let produtos = [
-            { nome: 'Produto 1', preco: 49.90, imagem: 'https://via.placeholder.com/200x150' },
-            { nome: 'Produto 2', preco: 59.90, imagem: 'https://via.placeholder.com/200x150' },
-            { nome: 'Produto 3', preco: 89.90, imagem: 'https://via.placeholder.com/200x150' }
+        // Simulated product list
+        let products = [
+            { name: 'Product 1', price: 49.90, image: 'https://via.placeholder.com/200x150' },
+            { name: 'Product 2', price: 59.90, image: 'https://via.placeholder.com/200x150' }
         ];
 
-        // Carregar produtos
-        function carregarProdutos() {
-            const listaProdutos = document.getElementById('product-list');
-            listaProdutos.innerHTML = '';
-            produtos.forEach(produto => {
+        let editingProductIndex = null;
+
+        // Load products to the shop page
+        function loadProducts() {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+            products.forEach((product, index) => {
                 const productDiv = document.createElement('div');
                 productDiv.classList.add('product');
                 productDiv.innerHTML = `
-                    <img src="${produto.imagem}" alt="${produto.nome}">
-                    <h3>${produto.nome}</h3>
-                    <p>R$ ${produto.preco.toFixed(2)}</p>
-                    <button>Comprar</button>
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <button>Buy Now</button>
                 `;
-                listaProdutos.appendChild(productDiv);
+                productList.appendChild(productDiv);
             });
         }
 
-        // Função para mudar entre páginas
-        function handleRouting() {
-            const hash = window.location.hash || '#products';
-            document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
-            if (hash === '#admin') {
-                document.getElementById('admin-section').classList.add('active');
-            } else {
-                document.getElementById('products-section').classList.add('active');
+        // Show admin product list
+        function loadAdminProducts() {
+            const adminProductList = document.getElementById('admin-product-list');
+            adminProductList.innerHTML = '';
+            products.forEach((product, index) => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <button class="edit-btn" onclick="editProduct(${index})">Edit</button>
+                    <button class="delete-btn" onclick="deleteProduct(${index})">Delete</button>
+                `;
+                adminProductList.appendChild(productDiv);
+            });
+        }
+
+        // Add a new product
+        function addProduct() {
+            const name = document.getElementById('new-product-name').value;
+            const price = parseFloat(document.getElementById('new-product-price').value);
+            if (name && !isNaN(price)) {
+                products.push({ name, price, image: 'https://via.placeholder.com/200x150' });
+                loadProducts();
+                loadAdminProducts();
+                document.getElementById('new-product-name').value = '';
+                document.getElementById('new-product-price').value = '';
             }
         }
 
-        window.addEventListener('hashchange', handleRouting);
-        handleRouting();
-        carregarProdutos();
+        // Edit product
+        function editProduct(index) {
+            editingProductIndex = index;
+            const product = products[index];
+            document.getElementById('edit-product-name').value = product.name;
+            document.getElementById('edit-product-price').value = product.price;
+            document.getElementById('edit-controls').classList.remove('hidden-section');
+        }
 
+        // Save edited product
+        function saveEdit() {
+            const name = document.getElementById('edit-product-name').value;
+            const price = parseFloat(document.getElementById('edit-product-price').value);
+            if (name && !isNaN(price)) {
+                products[editingProductIndex] = { name, price, image: 'https://via.placeholder.com/200x150' };
+                loadProducts();
+                loadAdminProducts();
+                document.getElementById('edit-controls').classList.add('hidden-section');
+                editingProductIndex = null;
+            }
+        }
+
+        // Cancel editing
+        function cancelEdit() {
+            editingProductIndex = null;
+            document.getElementById('edit-controls').classList.add('hidden-section');
+        }
+
+        // Delete a product
+        function deleteProduct(index) {
+            products.splice(index, 1);
+            loadProducts();
+            loadAdminProducts();
+        }
+
+        // Simple login function (using static hash)
         async function sha384(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-384', msgBuffer);
@@ -201,50 +253,33 @@
             const password = document.getElementById('password').value;
             const hashedPassword = await sha384(password);
 
-            const response = await fetch('https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/hashes.json');
-            const data = await response.json();
+            // Hardcoded admin credentials (for demo purposes)
+            const adminUser = 'admin';
+            const adminPassHash = 'ce70f3ac7d81bd79846c9aa2e5035c0c3c77ed1d715bd7d4b4c77e60f7364b4240a42f70801711f81f97b866a5c64a10'; // "password"
 
-            if (data[username] && data[username] === hashedPassword) {
-                document.getElementById('login-form').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-                atualizarListaProdutos();
+            if (username === adminUser && hashedPassword === adminPassHash) {
+                document.getElementById('admin-login-section').classList.add('hidden-section');
+                document.getElementById('admin-panel').classList.remove('hidden-section');
+                loadAdminProducts();
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
         }
 
-        function adicionarProduto() {
-            const nome = document.getElementById('product-name').value;
-            const preco = parseFloat(document.getElementById('product-price').value);
-            if (nome && !isNaN(preco)) {
-                produtos.push({ nome, preco, imagem: 'https://via.placeholder.com/200x150' });
-                atualizarListaProdutos();
-                carregarProdutos();
-                document.getElementById('product-name').value = '';
-                document.getElementById('product-price').value = '';
+        // Handle page routing
+        function handleRouting() {
+            const hash = window.location.hash || '#products';
+            document.querySelectorAll('.container').forEach(section => section.classList.add('hidden-section'));
+            if (hash === '#admin') {
+                document.getElementById('admin-login-section').classList.remove('hidden-section');
+            } else {
+                document.getElementById('products-section').classList.remove('hidden-section');
             }
         }
 
-        function atualizarListaProdutos() {
-            const listaProdutos = document.getElementById('admin-product-list');
-            listaProdutos.innerHTML = '';
-            produtos.forEach((produto, index) => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('product');
-                productDiv.innerHTML = `
-                    <h3>${produto.nome}</h3>
-                    <p>R$ ${produto.preco.toFixed(2)}</p>
-                    <button class="delete-btn" onclick="excluirProduto(${index})">Excluir</button>
-                `;
-                listaProdutos.appendChild(productDiv);
-            });
-        }
-
-        function excluirProduto(index) {
-            produtos.splice(index, 1);
-            atualizarListaProdutos();
-            carregarProdutos();
-        }
+        window.addEventListener('hashchange', handleRouting);
+        handleRouting();
+        loadProducts();
     </script>
 
 </body>
