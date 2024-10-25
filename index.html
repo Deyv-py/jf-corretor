@@ -58,43 +58,50 @@
 </header>
 
 <div class="container">
-    <section class="app-list">
+    <section class="app-list" id="appList">
         <h2>Lista de Apps</h2>
-        
-        <!-- Exemplo de app -->
-        <div class="app-item">
-            <h2>Nome do App 1</h2>
-            <p>Descrição breve do aplicativo, funcionalidades principais, e informações de compatibilidade.</p>
-            <a href="#">Download App 1</a> | <a href="#app1-comments">Ver Comentários</a>
-        </div>
-
-        <div class="app-item">
-            <h2>Nome do App 2</h2>
-            <p>Descrição breve do aplicativo, funcionalidades principais, e informações de compatibilidade.</p>
-            <a href="#">Download App 2</a> | <a href="#app2-comments">Ver Comentários</a>
-        </div>
-    </section>
-
-    <!-- Seção de comentários para o App 1 -->
-    <section id="app1-comments" class="comments-section">
-        <h2>Comentários sobre o App 1</h2>
-
-        <!-- Exemplo de comentário -->
-        <div class="comment admin-comment">
-            <p><strong>Admin:</strong> Esse app é excelente para desenvolvedores que querem aprender com código aberto!</p>
-        </div>
-    </section>
-
-    <!-- Seção de comentários para o App 2 -->
-    <section id="app2-comments" class="comments-section">
-        <h2>Comentários sobre o App 2</h2>
-
-        <!-- Exemplo de comentário -->
-        <div class="comment admin-comment">
-            <p><strong>Admin:</strong> Novo update disponível com mais funcionalidades!</p>
-        </div>
+        <!-- Os aplicativos serão carregados aqui pelo JavaScript -->
     </section>
 </div>
+
+<script>
+    // Carregar dados do JSON e exibir os aplicativos
+    fetch('apps.json')
+        .then(response => response.json())
+        .then(data => {
+            const appList = document.getElementById('appList');
+
+            data.apps.forEach(app => {
+                // Criar elemento para cada app
+                const appItem = document.createElement('div');
+                appItem.classList.add('app-item');
+                appItem.innerHTML = `
+                    <h2>${app.name}</h2>
+                    <p>${app.description}</p>
+                    <a href="${app.download_link}">Download ${app.name}</a>
+                `;
+
+                // Adicionar a seção de comentários (se houver)
+                if (app.comments) {
+                    const commentsSection = document.createElement('div');
+                    commentsSection.classList.add('comments-section');
+                    commentsSection.innerHTML = `<h3>Comentários sobre o ${app.name}</h3>`;
+
+                    app.comments.forEach(comment => {
+                        const commentDiv = document.createElement('div');
+                        commentDiv.classList.add('comment', 'admin-comment');
+                        commentDiv.innerHTML = `<p><strong>Admin:</strong> ${comment}</p>`;
+                        commentsSection.appendChild(commentDiv);
+                    });
+
+                    appItem.appendChild(commentsSection);
+                }
+
+                appList.appendChild(appItem);
+            });
+        })
+        .catch(error => console.error('Erro ao carregar os apps:', error));
+</script>
 
 </body>
 </html>
