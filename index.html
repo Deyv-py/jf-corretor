@@ -70,7 +70,7 @@
 
 <script>
     // Carregar dados do site (nome, descrição, atualizações)
-    fetch('site-info.json')
+    fetch('https://www.dropbox.com/scl/fi/2inl4cm4kq823dktx4jxg/site_info.json?rlkey=7oob6znatxif4gnqk66l1bdg0&st=ewdnp3z0&raw=1')
         .then(response => response.json())
         .then(data => {
             const siteHeader = document.getElementById('siteHeader');
@@ -90,7 +90,7 @@
         .catch(error => console.error('Erro ao carregar informações do site:', error));
 
     // Carregar dados dos apps
-    fetch('https://www.dropbox.com/scl/fi/2inl4cm4kq823dktx4jxg/site_info.json?rlkey=7oob6znatxif4gnqk66l1bdg0&st=ewdnp3z0&raw=1')
+    fetch('https://www.dropbox.com/scl/fi/8ilmlldg01c1aaim886qv/site_post.json?rlkey=q50o96ljaenk0b1584ggdpaqf&st=7zx26uio&raw=1')
         .then(response => response.json())
         .then(data => {
             const appList = document.getElementById('appList');
