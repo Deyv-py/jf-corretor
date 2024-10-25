@@ -1,119 +1,100 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imobiliária</title>
+    <title>Blog de Downloads - Apps Open Source Android</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
         header {
-            background-color: #4CAF50;
-            padding: 1rem;
-            color: white;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
             text-align: center;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #4CAF50;
-            font-weight: bold;
         }
         .container {
-            padding: 2rem;
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
         }
-        .property {
-            border: 1px solid #ddd;
+        .app-list {
+            margin: 20px 0;
+        }
+        .app-item {
+            background: #fff;
+            padding: 20px;
+            margin: 10px 0;
             border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .app-item h2 {
+            margin: 0;
+        }
+        .comments-section {
+            margin-top: 20px;
+        }
+        .comment {
+            background: #f9f9f9;
             margin: 10px 0;
             padding: 10px;
-            display: flex;
-            align-items: center;
+            border-left: 3px solid #333;
         }
-        .property img {
-            width: 150px; /* Ajuste o tamanho da imagem conforme necessário */
-            height: auto;
-            margin-right: 15px;
-        }
-        .property-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 2rem;
+        .admin-comment {
+            color: #333;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Imobiliária Online</h1>
-    <nav>
-        <a href="#home">Início</a>
-    </nav>
+    <h1>Blog de Downloads - Apps Open Source Android</h1>
+    <p>Bem-vindo ao blog! Baixe e descubra aplicativos Android open source.</p>
 </header>
 
-<div class="container" id="content">
-    <!-- Conteúdo dinâmico vai aqui -->
+<div class="container">
+    <section class="app-list">
+        <h2>Lista de Apps</h2>
+        
+        <!-- Exemplo de app -->
+        <div class="app-item">
+            <h2>Nome do App 1</h2>
+            <p>Descrição breve do aplicativo, funcionalidades principais, e informações de compatibilidade.</p>
+            <a href="#">Download App 1</a> | <a href="#app1-comments">Ver Comentários</a>
+        </div>
+
+        <div class="app-item">
+            <h2>Nome do App 2</h2>
+            <p>Descrição breve do aplicativo, funcionalidades principais, e informações de compatibilidade.</p>
+            <a href="#">Download App 2</a> | <a href="#app2-comments">Ver Comentários</a>
+        </div>
+    </section>
+
+    <!-- Seção de comentários para o App 1 -->
+    <section id="app1-comments" class="comments-section">
+        <h2>Comentários sobre o App 1</h2>
+
+        <!-- Exemplo de comentário -->
+        <div class="comment admin-comment">
+            <p><strong>Admin:</strong> Esse app é excelente para desenvolvedores que querem aprender com código aberto!</p>
+        </div>
+    </section>
+
+    <!-- Seção de comentários para o App 2 -->
+    <section id="app2-comments" class="comments-section">
+        <h2>Comentários sobre o App 2</h2>
+
+        <!-- Exemplo de comentário -->
+        <div class="comment admin-comment">
+            <p><strong>Admin:</strong> Novo update disponível com mais funcionalidades!</p>
+        </div>
+    </section>
 </div>
-
-<footer>
-    <p>&copy; 2024 - Imobiliária Online</p>
-</footer>
-
-<script>
-    let properties = [];
-    const defaultImage = 'data:image/png;base64,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'; // URL da imagem padrão
-
-    // Função para carregar os dados do arquivo JSON no Dropbox
-    async function loadProperties() {
-        const response = await fetch('https://raw.githubusercontent.com/Deyv-py/jf-corretor/refs/heads/main/casas.json');
-        properties = await response.json();
-        loadHomePage();
-    }
-
-    // Função para carregar a página inicial
-    function loadHomePage() {
-        const propertyList = properties.map(property => {
-            // Usar a imagem padrão se a URL da imagem estiver vazia ou não for acessível
-            const imgSrc = property.image || defaultImage;
-
-            return `
-                <div class="property">
-                    <img src="${imgSrc}" alt="${property.name}" onerror="this.onerror=null;this.src='${defaultImage}'">
-                    <div>
-                        <strong>${property.name}</strong> - R$ ${property.price} <br>
-                        <p>${property.description}</p>
-                        <a class="property-btn" href="${property.link}" target="_blank">Comprar</a>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        document.getElementById('content').innerHTML = `
-            <h2>Bem-vindo à nossa imobiliária!</h2>
-            <p>Confira nossos imóveis à venda abaixo. Clique em "Comprar" para mais detalhes.</p>
-            <div>${propertyList}</div>
-        `;
-    }
-
-    // Carregar os dados e a página correta no primeiro carregamento
-    loadProperties();
-</script>
 
 </body>
 </html>
